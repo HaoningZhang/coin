@@ -1,0 +1,2 @@
+# coin
+Ethereum Coin Test
