@@ -5,27 +5,15 @@ Die Gesellschaft kann im In- und Ausland Grundeigentum erwerben, belasten, verä
 UBS Fund Management AG, AdNovum AG, Deloitte 
 
 index.html
-1. Last update: Jan.20.2017
-2. ChainCap.com is a Fintech Start-Up based in Zug Switzerland
-3. Remove UBS FINMA EY
 4. table to ul
 
 chain.html
 1. Asset Class List to TKEY
 2. Chart translation
-3. Remove logos
 
 index_pro.html
-1. First Growths
-2. Right Bank
-3. DRC
-4. Wines
-5. Art
 6. Possibility Span
-7. Remove Terror Liste
-8. Add new News: Brexit Hard
-9. Chinese Contemporary
-10.Chinese Traditional
+
 
 Detusch/Francais/Italiano to EN
 Global Investment without barrier, powered by Blockchain
