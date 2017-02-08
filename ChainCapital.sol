@@ -96,31 +96,54 @@ contract StandardToken is Token {
 
 contract ChainCapitalToken is StandardToken {
     
-	address addressChainCapital;
-    mapping (address => uint256) balancesToPlaceWei;
-    
+    address 	crator;
+    uint256	nav;
+    uint256	etherPool;
+    uint256	tokenPool;
+
     function () {
         //if ether is sent to this address, send it back.
         //throw;
+	
+	if (msg.value < nav) {
+		throw;
+	}  else {
+		uint quantity = floor(msg.value / nav);
 		
-		balancesToPlaceWei[msg.sender] += msg.value; //in wei
+		etherPool += msg.value;
+		totalSupply += quantity;
+		balances[msg.sender] += quantity;
+	}
     }
     
-    /* Place the investment into new Tokens*/
-    function place(uint256 _newTokens) returns (bool success) {
+    function transfer(address _to, uint256 _value) returns (bool success) {
         
-		if (msg.sender == addressChainCapital) {
-			totalSupply += _newTokens;
-			balances[msg.sender] += _newTokens;
-			
-			// for each in balancesToPlaceWei
-			// transfer(address _to, uint256 _value)
-			
-			return true;
-		}
+	if (_to == creator) {
+		uint256 redeemValue = nav * _value;
 		
-		return false;
+		if (etherPool >= redeemValue) {
+			etherPool -= redeemValue;
+			totalSupply -= _value;
+			msg.sender.send(redeemValue);
+		} else {
+			
+		
+		}
+	} else {
+	
+		//Default assumes totalSupply can't be over max (2^256 - 1).
+		//If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.
+		//Replace the if with this one instead.
+		//if (balances[msg.sender] >= _value && balances[_to] + _value > balances[_to]) {
+		if (balances[msg.sender] >= _value && _value > 0) {
+		    balances[msg.sender] -= _value;
+		    balances[_to] += _value;
+		    Transfer(msg.sender, _to, _value);
+		    return true;
+		} else { return false; }
+	}
     }
+
     
     /* Public variables of the token */
     
@@ -142,7 +165,9 @@ contract ChainCapitalToken is StandardToken {
         string _tokenSymbol
         ) {
         
-        addressChainCapital = msg.sender;
+        creator = msg.sender;
+	etherPool = 0;
+	tokenPool = 0;
         
         balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens
         totalSupply = _initialAmount;                        // Update total supply
